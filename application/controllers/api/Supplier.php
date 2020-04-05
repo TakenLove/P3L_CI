@@ -8,12 +8,19 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Supplier extends REST_Controller
 {
-    public function __construct(){
-        header('Access-Control-Allow-Origin: *');
-        header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
-        header("Access-Control-Allow-Headers: Content-Type, ContentLength, Accept-Encoding");
-        parent::__construct();
+    public function __construct($config = 'rest'){
+        parent::__construct($config);
         $this->load->model('Supplier_model' , 'supplier');
+
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
+
+        
     }
 
     public function index_get(){
@@ -38,6 +45,7 @@ class Supplier extends REST_Controller
             ], REST_Controller::HTTP_NOT_FOUND); 
         }
     }
+    
     public function log_get(){
         $id = $this->get('id_supplier');
 

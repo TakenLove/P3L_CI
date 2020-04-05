@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://k2.berusahapastibisakok.tech/';
+$config['base_url'] = 'https://localhost:8081/API_REST/api';
 
 /*
 |--------------------------------------------------------------------------
