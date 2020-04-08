@@ -22,22 +22,23 @@ class Login extends REST_Controller
         
     }
 
-    public function index_get()
+    public function index_post()
     {
-
-		$username = $this->get('username');
-		$password = $this->get('password');
+		$username = $this->post('username');
+		$password = $this->post('password');
 		
 		$pegawai = $this->pegawai->login($username,$password,"OWNER");
 		$message = "OWNER";
 		if(count($pegawai) < 1){
 			$pegawai = $this->pegawai->login($username,$password,"CS");
 			$message = "CS";
-		}
+        } 
 
 		if($pegawai){
+            $token = srand(100);
             $this->response([
-				'status' => TRUE,
+                'status' => TRUE,
+                'token' => $token,
 				'message' => $message,
                 'data' => $pegawai
             ], REST_Controller::HTTP_OK); 
