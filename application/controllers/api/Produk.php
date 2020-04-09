@@ -9,10 +9,9 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Produk extends REST_Controller
 {
     public function __construct($config = 'rest'){
-        
         parent::__construct($config);
         $this->load->model('Produk_model' , 'produk');
-
+        
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
@@ -20,8 +19,6 @@ class Produk extends REST_Controller
         if ($method == "OPTIONS") {
             die();
         }
-
-
     }
 
     public function harga_get(){
@@ -248,7 +245,7 @@ class Produk extends REST_Controller
     private function image_upload($id)
 	{
         $config['file_name']            = $id;
-		$config['upload_path']          = '../upload/produk/';
+		$config['upload_path']          = './upload/produk/';
         $config['allowed_types']        = 'gif|jpg|png|JPG|PNG|jpeg';
         $config['encrypt_name']			= FALSE;
         $config['overwrite']			= TRUE;
@@ -285,6 +282,3 @@ class Produk extends REST_Controller
         }
     }
 }
-
-// SAYA UCAPKAN TRIMA KASIH PADA TUHAN YANG MAHA ESA
-// DAN SAMA CEWEKKU NIKEN YANG UDH SUPPORT SELAMA SETRESS PENGERJAAN CODINGNYA 

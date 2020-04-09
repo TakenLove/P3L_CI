@@ -71,7 +71,8 @@ class Data_hewan extends REST_Controller
     public function delete_post(){
         $id = $this->post('id_hewan');
         $data = [
-          'delete_at' => date('Y-m-d H:i:s')
+          'delete_at' => date('Y-m-d H:i:s'),
+          'deleted_by' => $this->post('deleted_by')
         ];
   
         $query = $this->db->get_where('data_hewan',['id_hewan'=> $id]);
@@ -136,7 +137,8 @@ class Data_hewan extends REST_Controller
             'nama' => $this->post('nama'),
             'tgl_lhr' => $this->post('tgl_lhr'),
             'id_pegawai_cs' => $this->post('id_pegawai_cs'),
-            'id_pegawai_kasir' => $this->post('id_pegawai_kasir')
+            'id_pegawai_kasir' => $this->post('id_pegawai_kasir'),
+            'created_by' => $this->post('created_by')
         ];
 
         if($this->data_hewan->createData_hewan($data) > 0){
@@ -148,6 +150,34 @@ class Data_hewan extends REST_Controller
             $this->response([
                 'status' => false,  
                 'message' => 'Gagal menambahkan data_hewan!'
+            ], REST_Controller::HTTP_BAD_REQUEST); 
+        }
+    }
+
+    //edit web
+    public function edit_post(){
+
+        $id_hewan = $this->post('id_hewan');
+
+        $data = [
+            'id_member' => $this->post('id_member'),
+            'id_jenis' => $this->post('id_jenis'),
+            'id_ukuran' => $this->post('id_ukuran'),
+            'nama' => $this->post('nama'),
+            'tgl_lhr' => $this->post('tgl_lhr'),
+            'id_pegawai_cs' => $this->post('id_pegawai_cs'),
+            'id_pegawai_kasir' => $this->post('id_pegawai_kasir')
+        ];
+
+        if($this->data_hewan->updateData_hewan($data,$id_hewan) > 0){
+            $this->response([
+                'status' => true,
+                'message' => 'data_hewan sudah terupdate!'
+            ], REST_Controller::HTTP_OK); 
+        }else {
+            $this->response([
+                'status' => false,  
+                'message' => 'Gagal update data_hewan!'
             ], REST_Controller::HTTP_BAD_REQUEST); 
         }
     }
@@ -177,6 +207,5 @@ class Data_hewan extends REST_Controller
                 'message' => 'Gagal update data_hewan!'
             ], REST_Controller::HTTP_BAD_REQUEST); 
         }
-
     }
 }
