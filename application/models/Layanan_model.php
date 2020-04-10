@@ -5,7 +5,8 @@ class Layanan_model extends CI_Model{
     //untuk tampil semua data
     public function getLog($id = null){
         if($id === null){
-            return $this->db->get('layanan')->result_array();
+            return $this->db->query("SELECT l.id_layanan, l.nama, l.harga, l.created_at, l.update_at, l.delete_at, p.nama as aktor
+            from layanan l JOIN pegawai p ON (l.aktor = p.id_pegawai)")->result_array();
         } else{
             return $this->db->get_where('layanan', ['id_layanan' => $id]) ->result_array();
         }
@@ -15,7 +16,8 @@ class Layanan_model extends CI_Model{
     //tidak menampilkan yang ter soft delete    
     public function getLayanan($id_layanan = null){
         if($id_layanan === null){
-            return $this->db->get_where('layanan', ['delete_at' => null])->result_array();
+            return $this->db->query("SELECT l.id_layanan, l.nama, l.harga, l.created_at, l.update_at, l.delete_at, p.nama as aktor
+            from layanan l JOIN pegawai p ON (l.aktor = p.id_pegawai) where l.delete_at is null")->result_array();
         } else{
             return $this->db->get_where('layanan', ['id_layanan' => $id_layanan]) ->result_array();
         }

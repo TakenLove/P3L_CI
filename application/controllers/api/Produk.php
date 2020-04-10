@@ -215,7 +215,8 @@ class Produk extends REST_Controller
         ];
   
         $query = $this->db->get_where('produk',['id_produk'=> $id_produk]);
-  
+        
+        $cek = 'default.jpg';
         foreach ($query->result() as $row)
         {
             $cek = $row->foto;
@@ -272,6 +273,7 @@ class Produk extends REST_Controller
     {
         $query = $this->db->get_where('produk',['id_produk'=> $id]);
 
+        $cek = 'default.jpg';
         foreach ($query->result() as $row)
         {
             $cek = $row->foto;

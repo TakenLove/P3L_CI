@@ -32,7 +32,12 @@ class Login extends REST_Controller
 		if(count($pegawai) < 1){
 			$pegawai = $this->pegawai->login($username,$password,"CS");
 			$message = "CS";
-        } 
+        }
+
+        if(count($pegawai) < 1){
+            $pegawai = $this->pegawai->login($username,$password,"KASIR");
+            $message = "KASIR";
+        }
 
 		if($pegawai){
             $token = srand(100);

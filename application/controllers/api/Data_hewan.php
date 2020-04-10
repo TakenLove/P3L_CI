@@ -72,7 +72,7 @@ class Data_hewan extends REST_Controller
         $id = $this->post('id_hewan');
         $data = [
           'delete_at' => date('Y-m-d H:i:s'),
-          'deleted_by' => $this->post('deleted_by')
+          'aktor' => $this->post('aktor')
         ];
   
         $query = $this->db->get_where('data_hewan',['id_hewan'=> $id]);
@@ -138,7 +138,8 @@ class Data_hewan extends REST_Controller
             'tgl_lhr' => $this->post('tgl_lhr'),
             'id_pegawai_cs' => $this->post('id_pegawai_cs'),
             'id_pegawai_kasir' => $this->post('id_pegawai_kasir'),
-            'created_by' => $this->post('created_by')
+            'aktor' => $this->post('aktor'),
+            'update_at' => null
         ];
 
         if($this->data_hewan->createData_hewan($data) > 0){
@@ -166,7 +167,9 @@ class Data_hewan extends REST_Controller
             'nama' => $this->post('nama'),
             'tgl_lhr' => $this->post('tgl_lhr'),
             'id_pegawai_cs' => $this->post('id_pegawai_cs'),
-            'id_pegawai_kasir' => $this->post('id_pegawai_kasir')
+            'id_pegawai_kasir' => $this->post('id_pegawai_kasir'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => date('Y-m-d H:i:s')
         ];
 
         if($this->data_hewan->updateData_hewan($data,$id_hewan) > 0){
@@ -193,7 +196,9 @@ class Data_hewan extends REST_Controller
             'nama' => $this->put('nama'),
             'tgl_lhr' => $this->put('tgl_lhr'),
             'id_pegawai_cs' => $this->put('id_pegawai_cs'),
-            'id_pegawai_kasir' => $this->put('id_pegawai_kasir')
+            'id_pegawai_kasir' => $this->put('id_pegawai_kasir'),
+            'aktor' => $this->put('aktor'),
+            'update_at' => date('Y-m-d H:i:s')
         ];
 
         if($this->data_hewan->updateData_hewan($data,$id_hewan) > 0){

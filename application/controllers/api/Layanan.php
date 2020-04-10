@@ -71,7 +71,8 @@ class Layanan extends REST_Controller
     public function delete_post(){
         $id = $this->post('id_layanan');
         $data = [
-          'delete_at' => date('Y-m-d H:i:s')
+          'delete_at' => date('Y-m-d H:i:s'),
+          'aktor' => $this->post('aktor')
         ];
   
         $query = $this->db->get_where('layanan',['id_layanan'=> $id]);
@@ -131,7 +132,9 @@ class Layanan extends REST_Controller
     public function index_post(){
         $data = [
             'nama' => $this->post('nama'),
-            'harga' => $this->post('harga')
+            'harga' => $this->post('harga'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => null
         ];
 
         if($this->layanan->createLayanan($data) > 0){
@@ -153,7 +156,9 @@ class Layanan extends REST_Controller
 
         $data = [
             'nama' => $this->put('nama'),
-            'harga' => $this->put('harga')
+            'harga' => $this->put('harga'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => date('Y-m-d H:i:s')
         ];
 
         if($this->layanan->updateLayanan($data,$id_layanan) > 0){
