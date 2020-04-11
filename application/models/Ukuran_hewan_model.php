@@ -5,7 +5,8 @@ class Ukuran_hewan_model extends CI_Model{
     //untuk tampil semua data
     public function getLog($id = null){
         if($id === null){
-            return $this->db->get('ukuran_hewan')->result_array();
+            return $this->db->query("SELECT u.id_ukuran ,u.ukuran ,u.harga, u.created_at, u.update_at, u.delete_at, p.nama as aktor
+            from ukuran_hewan u JOIN pegawai p ON (u.aktor = p.id_pegawai)")->result_array();
         } else{
             return $this->db->get_where('ukuran_hewan', ['id_ukuran' => $id]) ->result_array();
         }
@@ -15,7 +16,8 @@ class Ukuran_hewan_model extends CI_Model{
     //tidak menampilkan yang ter soft delete    
     public function getUkuran_hewan($id_ukuran = null){
         if($id_ukuran === null){
-            return $this->db->get_where('ukuran_hewan', ['delete_at' => null])->result_array();
+            return $this->db->query("SELECT u.id_ukuran ,u.ukuran ,u.harga, u.created_at, u.update_at, u.delete_at, p.nama as aktor
+            from ukuran_hewan u JOIN pegawai p ON (u.aktor = p.id_pegawai) where u.delete_at is null")->result_array();
         } else{
             return $this->db->get_where('ukuran_hewan', ['id_ukuran' => $id_ukuran]) ->result_array();
         }

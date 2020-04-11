@@ -137,7 +137,8 @@ class Member extends REST_Controller
             'tgl_lhr' => $this->post('tgl_lhr'),
             'alamat' => $this->post('alamat'),
             'status' => $this->post('status'),
-            'update_at' => null
+            'update_at' => null,
+            'delete_at' => null
         ];
 
         if($this->member->createMember($data) > 0){
@@ -166,7 +167,8 @@ class Member extends REST_Controller
             'alamat' => $this->put('alamat'),
             'status' => $this->put('status'),
             'aktor' => $this->put('aktor'),
-            'update_at' => date('Y-m-d H:i:s')
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->member->updateMember($data,$id_member) > 0){

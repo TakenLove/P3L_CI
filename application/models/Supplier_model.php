@@ -5,7 +5,8 @@ class Supplier_model extends CI_Model{
     //untuk tampil semua data
     public function getLog($id = null){
         if($id === null){
-            return $this->db->get('supplier')->result_array();
+            return $this->db->query("SELECT s.id_supplier ,s.nama ,s.no_telp, s.alamat, s.created_at, s.update_at, s.delete_at, p.nama as aktor
+            from supplier s JOIN pegawai p ON (s.aktor = p.id_pegawai)")->result_array();
         } else{
             return $this->db->get_where('supplier', ['id_supplier' => $id]) ->result_array();
         }
@@ -15,7 +16,8 @@ class Supplier_model extends CI_Model{
     //tidak menampilkan yang ter soft delete    
     public function getSupplier($id_supplier = null){
         if($id_supplier === null){
-            return $this->db->get_where('supplier', ['delete_at' => null])->result();
+            return $this->db->query("SELECT s.id_supplier ,s.nama ,s.no_telp, s.alamat, s.created_at, s.update_at, s.delete_at, p.nama as aktor
+            from supplier s JOIN pegawai p ON (s.aktor = p.id_pegawai) where s.delete_at is null")->result_array();
         } else{
             return $this->db->get_where('supplier', ['id_supplier' => $id_supplier]) ->result();
         }

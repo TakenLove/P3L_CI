@@ -5,7 +5,8 @@ class Jenis_hewan_model extends CI_Model{
     //untuk tampil semua data
     public function getLogJenis_hewan($id_jenis = null){
         if($id_jenis === null){
-            return $this->db->get('jenis_hewan')->result_array();
+            return $this->db->query("SELECT j.id_jenis ,j.jenis ,j.harga, j.created_at, j.update_at, j.delete_at, p.nama as aktor
+            from jenis_hewan j JOIN pegawai p ON (j.aktor = p.id_pegawai)")->result_array();
         } else{
             return $this->db->get_where('jenis_hewan', ['id_jenis' => $id_jenis]) ->result_array();
         }
@@ -15,7 +16,8 @@ class Jenis_hewan_model extends CI_Model{
     //tidak menampilkan yang ter soft delete
     public function getJenis_hewan($id_jenis = null){
         if($id_jenis === null){
-            return $this->db->get_where('jenis_hewan', ['delete_at' => null])->result_array();
+            return $this->db->query("SELECT j.id_jenis ,j.jenis ,j.harga, j.created_at, j.update_at, j.delete_at, p.nama as aktor
+            from jenis_hewan j JOIN pegawai p ON (j.aktor = p.id_pegawai) where j.delete_at is null")->result_array();
         } else{
             return $this->db->get_where('jenis_hewan', ['id_jenis' => $id_jenis]) ->result_array();
         }   

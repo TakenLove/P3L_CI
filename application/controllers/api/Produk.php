@@ -100,7 +100,8 @@ class Produk extends REST_Controller
     public function delete_post(){
       $id = $this->post('id_produk');
       $data = [
-        'delete_at' => date('Y-m-d H:i:s')
+        'delete_at' => date('Y-m-d H:i:s'),
+        'aktor' => $this->post('aktor'),
       ];
 
       $query = $this->db->get_where('produk',['id_produk'=> $id]);
@@ -166,7 +167,10 @@ class Produk extends REST_Controller
             'unit' => $this->post('unit'),
             'stok' => $this->post('stok'),
             'min_stok' => $this->post('min_stok'),
-            'harga' => $this->post('harga')
+            'harga' => $this->post('harga'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => null,
+            'delete_at' => null
         ];
 
         if($this->produk->createProduk($data) > 0){
@@ -191,7 +195,9 @@ class Produk extends REST_Controller
             'unit' => $this->put('unit'),
             'stok' => $this->put('stok'),
             'min_stok' => $this->put('min_stok'),
-            'harga' => $this->put('harga')
+            'harga' => $this->put('harga'),
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->produk->updateProduk($data,$id_produk) > 0){

@@ -131,7 +131,10 @@ class Jenis_hewan extends REST_Controller
     public function index_post(){
         $data = [
             'jenis' => $this->post('jenis'),
-            'harga' => $this->post('harga')
+            'harga' => $this->post('harga'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => null,
+            'delete_at' => null
         ];
 
         if($this->jenis_hewan->createJenis_hewan($data) > 0){
@@ -153,7 +156,9 @@ class Jenis_hewan extends REST_Controller
 
         $data = [
             'jenis' => $this->put('jenis'),
-            'harga' => $this->put('harga')
+            'harga' => $this->put('harga'),
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->jenis_hewan->updateJenis_hewan($data,$id_jenis) > 0){

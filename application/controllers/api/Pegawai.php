@@ -136,7 +136,10 @@ class Pegawai extends REST_Controller
             'no_telp' => $this->post('no_telp'),
             'role' => $this->post('role'),
             'password' => $this->post('password'),
-            'username' => $this->post('username')
+            'username' => $this->post('username'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => null,
+            'delete_at' => null
         ];
 
         if($this->pegawai->createPegawai($data) > 0){
@@ -163,7 +166,9 @@ class Pegawai extends REST_Controller
             'no_telp' => $this->put('no_telp'),
             'role' => $this->put('role'),
             'password' => $this->put('password'),
-            'username' => $this->put('username')
+            'username' => $this->put('username'),
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->pegawai->updatePegawai($data,$id_pegawai) > 0){

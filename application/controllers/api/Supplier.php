@@ -72,7 +72,8 @@ class Supplier extends REST_Controller
     public function delete_post(){
         $id = $this->post('id_supplier');
         $data = [
-          'delete_at' => date('Y-m-d H:i:s')
+          'delete_at' => date('Y-m-d H:i:s'),
+          'aktor' => $this->post('aktor')
         ];
   
         $query = $this->db->get_where('supplier',['id_supplier'=> $id]);
@@ -132,7 +133,10 @@ class Supplier extends REST_Controller
         $data = [
             'nama' => $this->post('nama'),
             'no_telp' => $this->post('no_telp'),
-            'alamat' => $this->post('alamat')
+            'alamat' => $this->post('alamat'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => null,
+            'delete_at' => null
         ];
 
         if($this->supplier->createSupplier($data) > 0){
@@ -155,7 +159,9 @@ class Supplier extends REST_Controller
         $data = [
             'nama' => $this->put('nama'),
             'no_telp' => $this->put('no_telp'),
-            'alamat' => $this->put('alamat')
+            'alamat' => $this->put('alamat'),
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->supplier->updateSupplier($data,$id_supplier) > 0){

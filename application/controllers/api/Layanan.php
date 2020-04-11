@@ -134,7 +134,8 @@ class Layanan extends REST_Controller
             'nama' => $this->post('nama'),
             'harga' => $this->post('harga'),
             'aktor' => $this->post('aktor'),
-            'update_at' => null
+            'update_at' => null,
+            'delete_at' => null
         ];
 
         if($this->layanan->createLayanan($data) > 0){
@@ -158,7 +159,8 @@ class Layanan extends REST_Controller
             'nama' => $this->put('nama'),
             'harga' => $this->put('harga'),
             'aktor' => $this->post('aktor'),
-            'update_at' => date('Y-m-d H:i:s')
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->layanan->updateLayanan($data,$id_layanan) > 0){

@@ -78,7 +78,8 @@ class Ukuran_hewan extends REST_Controller
     public function delete_post(){
         $id = $this->post('id_ukuran');
         $data = [
-          'delete_at' => date('Y-m-d H:i:s')
+          'delete_at' => date('Y-m-d H:i:s'),
+          'aktor' => $this->post('aktor')
         ];
   
         $query = $this->db->get_where('ukuran_hewan',['id_ukuran'=> $id]);
@@ -137,7 +138,10 @@ class Ukuran_hewan extends REST_Controller
     public function index_post(){
         $data = [
             'ukuran' => $this->post('ukuran'),
-            'harga' => $this->post('harga')
+            'harga' => $this->post('harga'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => null,
+            'delete_at' => null
         ];
 
         if($this->ukuran_hewan->createUkuran_hewan($data) > 0){
@@ -159,7 +163,10 @@ class Ukuran_hewan extends REST_Controller
 
         $data = [
             'ukuran' => $this->put('ukuran'),
-            'harga' => $this->put('harga')
+            'harga' => $this->put('harga'),
+            'aktor' => $this->post('aktor'),
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->ukuran_hewan->updateukuran_hewan($data,$id_ukuran) > 0){
