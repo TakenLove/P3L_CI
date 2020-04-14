@@ -158,7 +158,7 @@ class Layanan extends REST_Controller
         $data = [
             'nama' => $this->put('nama'),
             'harga' => $this->put('harga'),
-            'aktor' => $this->post('aktor'),
+            'aktor' => $this->put('aktor'),
             'update_at' => date('Y-m-d H:i:s'),
             'delete_at' => null
         ];

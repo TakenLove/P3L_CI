@@ -140,7 +140,7 @@ class Data_hewan extends REST_Controller
             'id_pegawai_kasir' => $this->post('id_pegawai_kasir'),
             'aktor' => $this->post('aktor'),
             'update_at' => null,
-            'delete_at' => null
+            'delete_at' => null 
         ];
 
         if($this->data_hewan->createData_hewan($data) > 0){
