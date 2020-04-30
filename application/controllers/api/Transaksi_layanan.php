@@ -8,9 +8,17 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Transaksi_layanan extends REST_Controller
 {
-    public function __construct(){
+    public function __construct($config = 'rest'){
         parent::__construct();
         $this->load->model('Transaksi_layanan_model' , 'transaksi_layanan');
+
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     public function index_get(){
@@ -67,13 +75,13 @@ class Transaksi_layanan extends REST_Controller
   
         $query = $this->db->get_where('transaksi_layanan',['id_transaksi_layanan'=> $id]);
   
-      foreach ($query->result() as $row)
-      {
-          $cek = $row->delete_at;
-      }
+        foreach ($query->result() as $row)
+        {
+            $cek = $row->delete_at;
+        }
   
         if($cek === null){
-          if($this->transaksi_layanan->deleteTransaksiLayanan($data, $id) > 0) {
+          if($this->transaksi_layanan->hardDelete($id) > 0) {
               $this->response([
                 'status' => true,
                 'id' => $id,
@@ -122,15 +130,17 @@ class Transaksi_layanan extends REST_Controller
         $data = [
             'id_member' => $this->post('id_member'),
             'id_hewan' => $this->post('id_hewan'),
-            'diskon' => $this->post('diskon'),
-            'total_harga' => $this->post('total_harga'),
-            'sub_total' => $this->post('sub_total'),
+            'diskon' => 0,
+            'total_harga' => 0,
+            'sub_total' => null,
             'status_layanan' => $this->post('status_layanan'),
             'status_pembayaran' => $this->post('status_pembayaran'),
-            'tgl_selesai' => $this->post('tgl_selesai'),
-            'id_pegawai_cs' => $this->post('id_pegawai_cs'),
-            'id_pegawai_kasir' => $this->post('id_pegawai_kasir')
-
+            'tgl_selesai' => null,
+            'id_pegawai_cs' => 0,
+            'id_pegawai_kasir' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null,
+            'aktor' => $this->post('aktor'),
         ];
 
         if($this->transaksi_layanan->createTransaksi_layanan($data) > 0){
@@ -152,15 +162,10 @@ class Transaksi_layanan extends REST_Controller
 
         $data = [
             'id_member' => $this->put('id_member'),
-            'id_hewan' => $this->put('id_hewan'),
-            'diskon' => $this->put('diskon'),
-            'total_harga' => $this->put('total_harga'),
+            'diskon' => 0,
+            'total_harga' => 0,
             'sub_total' => $this->put('sub_total'),
-            'status_layanan' => $this->put('status_layanan'),
-            'status_pembayaran' => $this->put('status_pembayaran'),
-            'tgl_selesai' => $this->put('tgl_selesai'),
-            'id_pegawai_cs' => $this->put('id_pegawai_cs'),
-            'id_pegawai_kasir' => $this->put('id_pegawai_kasir')
+            'id_pegawai_cs' => $this->put('id_pegawai_cs')
         ];
 
         if($this->transaksi_layanan->updateTransaksi_layanan($data,$id_transaksi_layanan) > 0){
@@ -172,6 +177,51 @@ class Transaksi_layanan extends REST_Controller
             $this->response([
                 'status' => false,  
                 'message' => 'Gagal update transaksi_layanan!'
+            ], REST_Controller::HTTP_BAD_REQUEST); 
+        }
+
+    }
+
+    public function service_put(){
+
+        $id_transaksi_layanan = $this->put('id_transaksi_layanan');
+
+        $data = [
+            'status_layanan' => $this->put('status_layanan')
+        ];
+
+        if($this->transaksi_layanan->updateTransaksi_layanan($data,$id_transaksi_layanan) > 0){
+            $this->response([
+                'status' => true,
+                'message' => 'transaksi layanan sudah terupdate!'
+            ], REST_Controller::HTTP_OK); 
+        }else {
+            $this->response([
+                'status' => false,  
+                'message' => 'Gagal update transaksi layanan!'
+            ], REST_Controller::HTTP_BAD_REQUEST); 
+        }
+
+    }
+
+    public function pesan_put(){
+
+        $id_transaksi_layanan = $this->put('id_transaksi_layanan');
+
+        $data = [
+            'sub_total' => $this->put('sub_total'),
+            'id_pegawai_cs' => $this->put('id_pegawai_cs')
+        ];
+
+        if($this->transaksi_produk->updateTransaksi_layanan($data,$id_transaksi_layanan) > 0){
+            $this->response([
+                'status' => true,
+                'message' => 'transaksi layanan sudah terupdate!'
+            ], REST_Controller::HTTP_OK); 
+        }else {
+            $this->response([
+                'status' => false,  
+                'message' => 'Gagal update transaksi layanan!'
             ], REST_Controller::HTTP_BAD_REQUEST); 
         }
 

@@ -6,11 +6,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . 'libraries/Format.php';
 require APPPATH . 'libraries/REST_Controller.php';
 
-class Produk extends REST_Controller
+class Reverse_data extends REST_Controller
 {
     public function __construct($config = 'rest'){
         parent::__construct($config);
-        $this->load->model('Produk_model' , 'produk');
+        $this->load->model('Reverse_data_model' , 'produk');
         
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
@@ -21,35 +21,7 @@ class Produk extends REST_Controller
         }
     }
 
-    public function harga_get(){
-        $produk = $this->produk->getHarga();
-        if($produk){
-            $this->response([
-                'status' => TRUE,
-                'data' => $produk
-            ], REST_Controller::HTTP_OK); 
-        } else {
-            $this->response([
-                'status' => false,
-                'message' => 'id tidak ditemukan!'
-            ], REST_Controller::HTTP_NOT_FOUND); 
-        }
-    }
-
-    public function stok_get(){
-        $produk = $this->produk->getStok();
-        if($produk){
-            $this->response([
-                'status' => TRUE,
-                'data' => $produk
-            ], REST_Controller::HTTP_OK); 
-        } else {
-            $this->response([
-                'status' => false,
-                'message' => 'id tidak ditemukan!'
-            ], REST_Controller::HTTP_NOT_FOUND); 
-        }
-    }
+    
 
     public function index_get(){
         $id_produk = $this->get('id_produk');
@@ -191,12 +163,7 @@ class Produk extends REST_Controller
         $id_produk = $this->put('id_produk');
 
         $data = [
-            'nama' => $this->put('nama'),
-            'unit' => $this->put('unit'),
             'stok' => $this->put('stok'),
-            'min_stok' => $this->put('min_stok'),
-            'harga' => $this->put('harga'),
-            'update_at' => date('Y-m-d H:i:s'),
             'delete_at' => null
         ];
 

@@ -8,9 +8,17 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Detail_transaksi_layanan extends REST_Controller
 {
-    public function __construct(){
+    public function __construct($config = 'rest'){
         parent::__construct();
         $this->load->model('Detail_transaksi_layanan_model' , 'detail_transaksi_layanan');
+
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     public function index_get(){
@@ -61,19 +69,16 @@ class Detail_transaksi_layanan extends REST_Controller
 
     public function delete_post(){
         $id = $this->post('id_detail_layanan');
-        $data = [
-          'delete_at' => date('Y-m-d H:i:s')
-        ];
   
         $query = $this->db->get_where('detail_transaksi_layanan',['id_detail_layanan'=> $id]);
   
-      foreach ($query->result() as $row)
-      {
-          $cek = $row->delete_at;
-      }
+        foreach ($query->result() as $row)
+        {
+            $cek = $row->delete_at;
+        }
   
         if($cek === null){
-          if($this->detail_transaksi_layanan->deleteDetail_transaksi_layanan($data, $id) > 0) {
+          if($this->detail_transaksi_layanan->hardDelete($id) > 0) {
               $this->response([
                 'status' => true,
                 'id' => $id,

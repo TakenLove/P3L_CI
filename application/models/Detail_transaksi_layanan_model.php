@@ -15,7 +15,8 @@ class Detail_transaksi_layanan_model extends CI_Model{
     //tidak menampilkan yang ter soft delete   
     public function getDetail_transaksi_layanan($id_detail_layanan = null){
         if($id_detail_layanan === null){
-            return $this->db->get_where('detail_transaksi_layanan', ['delete_at' => null])->result_array();
+            return $this->db->query("SELECT dl.id_detail_layanan, tl.id_transaksi_layanan, l.nama as layanan, dl.sub_harga, dl.jumlah, u.ukuran, j.jenis, u.harga as hargaU, j.harga as hargaJ, l.harga as hargaL
+            from detail_transaksi_layanan dl JOIN layanan l ON (dl.id_layanan = l.id_layanan) JOIN transaksi_layanan tl ON (dl.id_transaksi_layanan = tl.id_transaksi_layanan) JOIN ukuran_hewan u ON (dl.id_ukuran = u.id_ukuran) JOIN jenis_hewan j ON (dl.id_jenis = j.id_jenis)")->result_array();
         } else{
             return $this->db->get_where('detail_transaksi_layanan', ['id_detail_layanan' => $id_detail_layanan]) ->result_array();
         }

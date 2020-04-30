@@ -8,9 +8,17 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Detail_transaksi_produk extends REST_Controller
 {
-    public function __construct(){
+    public function __construct($config = 'rest'){
         parent::__construct();
         $this->load->model('Detail_transaksi_produk_model' , 'detail_transaksi_produk');
+
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     public function index_get(){
@@ -67,13 +75,13 @@ class Detail_transaksi_produk extends REST_Controller
   
         $query = $this->db->get_where('detail_transaksi_produk',['id_detail_produk'=> $id]);
   
-      foreach ($query->result() as $row)
-      {
-          $cek = $row->delete_at;
-      }
+        foreach ($query->result() as $row)
+        {
+            $cek = $row->delete_at;
+        }
   
         if($cek === null){
-          if($this->detail_transaksi_produk->deleteDetail_transaksi_produk($data, $id) > 0) {
+          if($this->detail_transaksi_produk->hardDelete($id) > 0) {
               $this->response([
                 'status' => true,
                 'id' => $id,
@@ -94,21 +102,21 @@ class Detail_transaksi_produk extends REST_Controller
       }
 
 
-    public function index_delete(){
-        $id_detail_produk = $this->delete('id_detail_produk');
+    public function index_delete($id_detail_produk = null){
 
         if($id_detail_produk === null){
             $this->response([
+                'id_detail_produk' => $id_detail_produk,
                 'status' => false,
-                'message' => 'id detail_produk yang ingin dihapus tidak ditemukan!'
+                'message' => 'id detail produk yang ingin dihapus tidak ditemukan!'
             ], REST_Controller::HTTP_BAD_REQUEST); 
-        } else{
-            if( $this->detail_transaksi_produk->hardDelete($id_detail_produk) > 0){
+        }else{
+            if($this->detail_transaksi_produk->hardDelete($id_detail_produk) > 0){
                 //OKE
                 $this->response([
                     'status' => FALSE,
                     'id_detail_produk' => $id_detail_produk,
-                    'message' => 'detail_produk sudah terhapus!'
+                    'message' => 'detail produk sudah terhapus!'
                 ], REST_Controller::HTTP_OK); 
             } else{
                 $this->response([
