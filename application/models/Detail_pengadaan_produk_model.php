@@ -15,7 +15,7 @@ class Detail_pengadaan_produk_model extends CI_Model{
     //tidak menampilkan yang ter soft delete    
     public function getDetail_pengadaan_produk($id_detail_produk = null){
         if($id_detail_produk === null){
-            return $this->db->get_where('detail_pengadaan_produk', ['delete_at' => null])->result_array();
+            return $this->db->query("SELECT dpe.id_detail_produk, dpe.id_pengadaan, p.nama as nama, dpe.jumlah from detail_pengadaan_produk dpe JOIN produk p ON (dpe.id_produk = p.id_produk)")->result_array();
         } else{
             return $this->db->get_where('detail_pengadaan_produk', ['id_detail_produk' => $id_detail_produk]) ->result_array();
         }

@@ -8,9 +8,17 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Pengadaan_produk extends REST_Controller
 {
-    public function __construct(){
+    public function __construct($config = 'rest'){
         parent::__construct();
         $this->load->model('Pengadaan_produk_model' , 'pengadaan_produk');
+
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     public function index_get(){
@@ -59,6 +67,40 @@ class Pengadaan_produk extends REST_Controller
         }
     }
 
+    public function destroy_post(){
+        $id = $this->post('id_pengadaan');
+        $data = [
+          'delete_at' => date('Y-m-d H:i:s')
+        ];
+  
+        $query = $this->db->get_where('pengadaan_produk',['id_pengadaan'=> $id]);
+
+        foreach ($query->result() as $row)
+        {
+            $cek = $row->delete_at;
+        }
+  
+        if($cek === null){
+          if($this->pengadaan_produk->hardDelete($id) > 0) {
+              $this->response([
+                'status' => true,
+                'id' => $id,
+                'message' => 'berhasil soft delete :)'
+              ],  REST_Controller::HTTP_OK);
+            } else {
+              $this->response([
+                'status' => false,
+                'message' => 'ga ketemu'
+              ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }else{
+          $this->response([
+              'status' => false,
+              'message' => 'ga kena'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+      }
+
     public function delete_post(){
         $id = $this->post('id_pengadaan');
         $data = [
@@ -66,11 +108,11 @@ class Pengadaan_produk extends REST_Controller
         ];
   
         $query = $this->db->get_where('pengadaan_produk',['id_pengadaan'=> $id]);
-  
-      foreach ($query->result() as $row)
-      {
-          $cek = $row->delete_at;
-      }
+
+        foreach ($query->result() as $row)
+        {
+            $cek = $row->delete_at;
+        }
   
         if($cek === null){
           if($this->pengadaan_produk->deletePengadaan_produk($data, $id) > 0) {
@@ -121,10 +163,12 @@ class Pengadaan_produk extends REST_Controller
 
     public function index_post(){
         $data = [
-            'status' => $this->post('status'),
-            'id_supplier' => $this->post('id_supplier'),
-            'printed_at' => $this->post('printed_at'),
-            'pengeluaran' => $this->post('pengeluaran')
+            'status' => 'belum selesai',
+            'id_supplier' => 4,
+            'delete_at' => null,
+            'update_at' => null,
+            'printed_at' => null,
+            'pengeluaran' => 0
         ];
 
         if($this->pengadaan_produk->createPengadaan_produk($data) > 0){
@@ -145,10 +189,9 @@ class Pengadaan_produk extends REST_Controller
         $id_pengadaan = $this->put('id_pengadaan');
 
         $data = [
-            'status' => $this->put('status'),
             'id_supplier' => $this->put('id_supplier'),
-            'printed_at' => $this->put('printed_at'),
-            'pengeluaran' => $this->put('pengeluaran')
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null
         ];
 
         if($this->pengadaan_produk->updatePengadaan_produk($data,$id_pengadaan) > 0){
@@ -162,6 +205,5 @@ class Pengadaan_produk extends REST_Controller
                 'message' => 'Gagal update pengadaan_produk!'
             ], REST_Controller::HTTP_BAD_REQUEST); 
         }
-
     }
 }

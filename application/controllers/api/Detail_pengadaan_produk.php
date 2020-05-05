@@ -8,9 +8,17 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Detail_pengadaan_produk extends REST_Controller
 {
-    public function __construct(){
+    public function __construct($config = 'rest'){
         parent::__construct();
         $this->load->model('Detail_pengadaan_produk_model' , 'detail_pengadaan_produk');
+
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     public function index_get(){
@@ -67,13 +75,13 @@ class Detail_pengadaan_produk extends REST_Controller
   
         $query = $this->db->get_where('detail_pengadaan_produk',['id_detail_produk'=> $id]);
   
-      foreach ($query->result() as $row)
-      {
-          $cek = $row->delete_at;
-      }
+        foreach ($query->result() as $row)
+        {
+            $cek = $row->delete_at;
+        }
   
         if($cek === null){
-          if($this->detail_pengadaan_produk->deleteDetail_pengadaan_produk($data, $id) > 0) {
+          if($this->detail_pengadaan_produk->hardDelete($id) > 0) {
               $this->response([
                 'status' => true,
                 'id' => $id,
@@ -145,7 +153,8 @@ class Detail_pengadaan_produk extends REST_Controller
         $data = [
             'id_pengadaan' => $this->put('id_pengadaan'),
             'id_produk' => $this->put('id_produk'),
-            'jumlah' => $this->put('jumlah')
+            'jumlah' => $this->put('jumlah'),
+            'delete_at' => null
         ];
 
         if($this->detail_pengadaan_produk->updateDetail_pengadaan_produk($data,$id_detail_produk) > 0){
