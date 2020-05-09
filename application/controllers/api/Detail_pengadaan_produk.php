@@ -130,7 +130,8 @@ class Detail_pengadaan_produk extends REST_Controller
         $data = [
             'id_pengadaan' => $this->post('id_pengadaan'),
             'id_produk' => $this->post('id_produk'),
-            'jumlah' => $this->post('jumlah')
+            'jumlah' => $this->post('jumlah'),
+            'sub_harga' => $this->post('sub_harga')
         ];
 
         if($this->detail_pengadaan_produk->createDetail_pengadaan_produk($data) > 0){
@@ -154,7 +155,8 @@ class Detail_pengadaan_produk extends REST_Controller
             'id_pengadaan' => $this->put('id_pengadaan'),
             'id_produk' => $this->put('id_produk'),
             'jumlah' => $this->put('jumlah'),
-            'delete_at' => null
+            'delete_at' => null,
+            'sub_harga' => $this->put('sub_harga')
         ];
 
         if($this->detail_pengadaan_produk->updateDetail_pengadaan_produk($data,$id_detail_produk) > 0){

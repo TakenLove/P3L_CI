@@ -22,7 +22,7 @@ class Produk_model extends CI_Model{
     public function getLogProduk($id_produk = null){
         if($id_produk === null){
             return $this->db->query("SELECT pr.id_produk , pr.nama , pr.unit, pr.stok, pr.min_stok, pr.harga, pr.foto, pr.created_at, pr.update_at, pr.delete_at, p.nama as aktor
-            from produk pr JOIN pegawai p ON (pr.aktor = p.id_pegawai) where pr.delete_at is null")->result_array();
+            from produk pr JOIN pegawai p ON (pr.aktor = p.id_pegawai)")->result_array();
         } else{
             return $this->db->get_where('produk', ['id_produk' => $id_produk]) ->result_array();
         }
@@ -33,7 +33,7 @@ class Produk_model extends CI_Model{
     public function getProduk($id_produk = null){
         if($id_produk === null){
             return $this->db->query("SELECT pr.id_produk , pr.nama , pr.unit, pr.stok, pr.min_stok, pr.harga, pr.foto, pr.created_at, pr.update_at, pr.delete_at, p.nama as aktor
-            from produk pr JOIN pegawai p ON (pr.aktor = p.id_pegawai)")->result_array();
+            from produk pr JOIN pegawai p ON (pr.aktor = p.id_pegawai) where pr.delete_at is null")->result_array();
         } else{
             return $this->db->get_where('produk', ['id_produk' => $id_produk]) ->result_array();
         }

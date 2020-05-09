@@ -162,7 +162,16 @@ class Pengadaan_produk extends REST_Controller
     }
 
     public function index_post(){
+        $toNumbID = $this->db->count_all('pengadaan_produk');
+        $count = str_pad($toNumbID+1,2,0, STR_PAD_LEFT);
+        $id = "PO"."-";
+        $d = date('d');
+        $mnth = date("m");
+        $yrs = date("y")."-";
+        $id_pengadaan = $id.$d.$mnth.$yrs.$count;
+
         $data = [
+            'id_pengadaan' => $id_pengadaan,
             'status' => 'belum selesai',
             'id_supplier' => 4,
             'delete_at' => null,
@@ -190,6 +199,7 @@ class Pengadaan_produk extends REST_Controller
 
         $data = [
             'id_supplier' => $this->put('id_supplier'),
+            'pengeluaran' => $this->put('pengeluaran'),
             'update_at' => date('Y-m-d H:i:s'),
             'delete_at' => null
         ];
@@ -203,6 +213,52 @@ class Pengadaan_produk extends REST_Controller
             $this->response([
                 'status' => false,  
                 'message' => 'Gagal update pengadaan_produk!'
+            ], REST_Controller::HTTP_BAD_REQUEST); 
+        }
+    }
+
+    public function status_put(){
+        
+        $id_pengadaan = $this->put('id_pengadaan');
+
+        $data = [
+            'status' => 'selesai',
+            'update_at' => date('Y-m-d H:i:s'),
+            'delete_at' => null,
+            'printed_at' => null
+        ];
+
+        if($this->pengadaan_produk->updatePengadaan_produk($data, $id_pengadaan) > 0){
+            $this->response([
+                'status' => true,
+                'message' => 'status sudah terupdate!'
+            ], REST_Controller::HTTP_OK); 
+        }else {
+            $this->response([
+                'status' => false,  
+                'message' => 'Gagal update status!'
+            ], REST_Controller::HTTP_BAD_REQUEST); 
+        }
+    }
+
+    public function print_put(){
+        
+        $id_pengadaan = $this->put('id_pengadaan');
+
+        $data = [
+            'delete_at' => null,
+            'printed_at' => date('Y-m-d')
+        ];
+
+        if($this->pengadaan_produk->updatePengadaan_produk($data, $id_pengadaan) > 0){
+            $this->response([
+                'status' => true,
+                'message' => 'status sudah terupdate!'
+            ], REST_Controller::HTTP_OK); 
+        }else {
+            $this->response([
+                'status' => false,  
+                'message' => 'Gagal update status!'
             ], REST_Controller::HTTP_BAD_REQUEST); 
         }
     }

@@ -98,13 +98,13 @@ class Produk extends REST_Controller
     }
     
     public function delete_post(){
-      $id = $this->post('id_produk');
-      $data = [
-        'delete_at' => date('Y-m-d H:i:s'),
-        'aktor' => $this->post('aktor'),
-      ];
+    $id = $this->post('id_produk');
+    $data = [
+    'delete_at' => date('Y-m-d H:i:s'),
+    'aktor' => $this->post('aktor')
+    ];
 
-      $query = $this->db->get_where('produk',['id_produk'=> $id]);
+    $query = $this->db->get_where('produk',['id_produk'=> $id]);
 
     foreach ($query->result() as $row)
     {

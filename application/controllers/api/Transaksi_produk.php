@@ -151,13 +151,21 @@ class Transaksi_produk extends REST_Controller
     }
 
     public function index_post(){
+        $toNumbID = $this->db->count_all('transaksi_produk');
+        $count = str_pad($toNumbID+1,2,0, STR_PAD_LEFT);
+        $id = "PR"."-";
+        $d = date('d');
+        $mnth = date("m");
+        $yrs = date("y")."-";
+        $id_transaksi_produk = $id.$d.$mnth.$yrs.$count;
         $data = [
-            'id_member' => null,
-            'total_harga' => null,
-            'diskon' => null,
-            'sub_total' => null,
+            'id_transaksi_produk' => $id_transaksi_produk,
+            'id_member' => 0,
+            'total_harga' => 0,
+            'diskon' => 0,
+            'sub_total' => 0,
             'id_pegawai_cs' => 0,
-            'id_pegawai_kasir' => null,
+            'id_pegawai_kasir' => 0,
             'update_at' => null,
             'delete_at' => null,
             'aktor' => $this->post('aktor')
@@ -179,7 +187,7 @@ class Transaksi_produk extends REST_Controller
     public function index_put(){
 
         $id_transaksi_produk = $this->put('id_transaksi_produk');
-
+        
         $data = [
             'id_member' => $this->put('id_member'),
             'sub_total' => $this->put('sub_total'),

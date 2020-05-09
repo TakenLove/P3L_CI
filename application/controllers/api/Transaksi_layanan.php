@@ -127,12 +127,21 @@ class Transaksi_layanan extends REST_Controller
     }
 
     public function index_post(){
+        $toNumbID = $this->db->count_all('transaksi_layanan');
+        $count = str_pad($toNumbID+1,2,0, STR_PAD_LEFT);
+        $id = "LY"."-";
+        $d = date('d');
+        $mnth = date("m");
+        $yrs = date("y")."-";
+        $id_transaksi_layanan = $id.$d.$mnth.$yrs.$count;
+
         $data = [
+            'id_transaksi_layanan' => $id_transaksi_layanan,
             'id_member' => $this->post('id_member'),
             'id_hewan' => $this->post('id_hewan'),
             'diskon' => 0,
             'total_harga' => 0,
-            'sub_total' => null,
+            'sub_total' => 0,
             'status_layanan' => $this->post('status_layanan'),
             'status_pembayaran' => $this->post('status_pembayaran'),
             'tgl_selesai' => null,
@@ -140,7 +149,7 @@ class Transaksi_layanan extends REST_Controller
             'id_pegawai_kasir' => 0,
             'created_at' => date('Y-m-d H:i:s'),
             'delete_at' => null,
-            'aktor' => $this->post('aktor'),
+            'aktor' => $this->post('aktor')
         ];
 
         if($this->transaksi_layanan->createTransaksi_layanan($data) > 0){
@@ -213,7 +222,7 @@ class Transaksi_layanan extends REST_Controller
             'id_pegawai_cs' => $this->put('id_pegawai_cs')
         ];
 
-        if($this->transaksi_produk->updateTransaksi_layanan($data,$id_transaksi_layanan) > 0){
+        if($this->transaksi_layanan->updateTransaksi_layanan($data,$id_transaksi_layanan) > 0){
             $this->response([
                 'status' => true,
                 'message' => 'transaksi layanan sudah terupdate!'

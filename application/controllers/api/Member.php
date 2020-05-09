@@ -137,6 +137,7 @@ class Member extends REST_Controller
             'tgl_lhr' => $this->post('tgl_lhr'),
             'alamat' => $this->post('alamat'),
             'status' => $this->post('status'),
+            'aktor' => $this->post('aktor'),
             'update_at' => null,
             'delete_at' => null
         ];
