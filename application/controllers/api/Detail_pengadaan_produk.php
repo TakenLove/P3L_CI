@@ -14,6 +14,7 @@ class Detail_pengadaan_produk extends REST_Controller
 
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        //Content-Type,Content-Length,Server,Date,access-control-allow-methods,access-control-allow-origin
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "OPTIONS") {
@@ -101,8 +102,8 @@ class Detail_pengadaan_produk extends REST_Controller
         }
       }
    
-    public function index_delete(){
-        $id_detail_produk = $this->delete('id_detail_produk');
+    public function index_delete($id_detail_produk = null){
+        //$id_detail_produk = $this->delete('id_detail_produk');
 
         if($id_detail_produk === null){
             $this->response([
@@ -111,7 +112,6 @@ class Detail_pengadaan_produk extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST); 
         } else{
             if( $this->detail_pengadaan_produk->hardDelete($id_detail_produk) > 0){
-                //OKE
                 $this->response([
                     'status' => FALSE,
                     'id_detail_produk' => $id_detail_produk,
