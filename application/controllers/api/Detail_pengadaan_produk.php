@@ -68,6 +68,24 @@ class Detail_pengadaan_produk extends REST_Controller
         }
     }
 
+    public function struck_get(){
+        $id_pengadaan = $this->get('id_pengadaan');
+
+        $detail_pengadaan_produk = $this->detail_pengadaan_produk->getDetail_pengadaan_struck($id_pengadaan);
+        
+        if($detail_pengadaan_produk){
+            $this->response([
+                'status' => TRUE,
+                'data' => $detail_pengadaan_produk
+            ], REST_Controller::HTTP_OK); 
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'id tidak ditemukan!'
+            ], REST_Controller::HTTP_NOT_FOUND); 
+        }
+    }
+
     public function delete_post(){
         $id = $this->post('id_detail_produk');
         $data = [

@@ -69,6 +69,23 @@ class Supplier extends REST_Controller
         }
     }
 
+    public function dataSupplier_get(){
+        $nama = $this->get('nama');
+        
+        $supplier = $this->supplier->getSupplierData($nama);
+        if($supplier){
+            $this->response([
+                'status' => TRUE,
+                'data' => $supplier
+            ], REST_Controller::HTTP_OK); 
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'id tidak ditemukan!'
+            ], REST_Controller::HTTP_NOT_FOUND); 
+        }
+    }
+
     public function delete_post(){
         $id = $this->post('id_supplier');
         $data = [

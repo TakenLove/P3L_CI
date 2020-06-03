@@ -24,6 +24,12 @@ class Supplier_model extends CI_Model{
         
     }
 
+    public function getSupplierData($nama){
+        return $this->db->query("SELECT s.id_supplier ,s.nama ,s.no_telp, s.alamat, s.created_at, s.update_at, s.delete_at, p.nama as aktor
+        from supplier s JOIN pegawai p ON (s.aktor = p.id_pegawai) where s.nama='$nama'")->result_array();
+        
+    }
+
     public function deleteSupplier($data,$id_supplier){
         $this->db->update('supplier' , $data , ['id_supplier' => $id_supplier]);
         return $this->db->affected_rows();
